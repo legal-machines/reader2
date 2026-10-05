@@ -1,0 +1,148 @@
+// Send, for a message written end to end: the reader's own button, in
+// Mail's row of buttons. Only a press here has the message encrypted: it
+// finds the composer (compose.mjs) among this tab's frames itself, asks it
+// for the text, seals it with your key (seal.mjs; Touch ID first if encrypted mail is
+// locked), encrypts it to the recipients' keys (keys.mjs) and hands Mail the
+// encrypted message to send. Mail cannot have a draft encrypted behind your
+// back, nor learn from it how much you have written.
+
+import {MAIL_SITES} from './sites.mjs';
+import {widths} from './width.mjs';
+import {keyOf, seal} from './seal.mjs';
+import * as vault from './vault.mjs';
+import {all, valid} from './store.mjs';
+import {openpgpLib} from './decrypt.mjs';
+import {fromOurFrame, readerFrames} from './tab.mjs';
+import {alarmText, raised} from './alarm.mjs';
+
+const button = document.getElementById('send'), pinField = document.querySelector('.send-pin'), pin = document.getElementById('pin');
+let parentOrigin = null, ready = false, records = [], minutes = 15, from = '', people = {to: [], cc: [], bcc: []}, busy = false;
+let changedAt = 0;  // when Mail last changed who it goes to
+// An address as it may stand in a header: nothing that could end the line
+// and start a header of Mail's choosing inside the sealed message.
+const ADDRESS = /^[a-z0-9._%+-]{1,64}@[a-z0-9-]{1,63}(\.[a-z0-9-]{1,63})+$/;
+const tell = m => { if (parentOrigin) parent.postMessage(m, parentOrigin); };
+// The button's own size, whatever room the frame has now; nothing while
+// Mail keeps the frame hidden (End to end off), which lays it out at nothing.
+const report = () => {
+  if (!innerWidth || !innerHeight) return;
+  const r = document.getElementById('actions').getBoundingClientRect();
+  if (r.width && r.height) tell({type: 'reader-size', width: Math.ceil(r.width), height: Math.ceil(r.height)});
+};
+new ResizeObserver(report).observe(document.getElementById('actions'));
+
+// The message from the one composer in this tab, found here, not named by
+// Mail. A second one, and nothing is sent: Mail may have slipped it in with
+// words of its own.
+const ask = (to, cc) => new Promise((resolve, reject) => {
+  const composers = readerFrames('compose.html');
+  if (composers.length > 1) return reject(new Error('This page holds a second end-to-end message: nothing was sent. Reload the page.'));
+  if (!composers.length) return reject(new Error('There is no message to send on this page.'));
+  const id = crypto.randomUUID(), w = composers[0];
+  const done = () => { removeEventListener('message', hear); clearTimeout(timer); };
+  const hear = m => {
+    if (m.source !== w || !fromOurFrame(m, 'compose.html') || m.data?.type !== 'message' || m.data.id !== id) return;
+    done();
+    if (typeof m.data.text === 'string') resolve(m.data.text); else reject(new Error(m.data.error || 'The message could not be read.'));
+  };
+  const timer = setTimeout(() => { done(); reject(new Error('The message did not answer: nothing was sent. Reload the page.')); }, 3000);
+  addEventListener('message', hear);
+  w.postMessage({type: 'compose-message', id, to, cc, from}, location.origin);
+});
+
+// The composer shows whom the message will be encrypted to, from the very
+// list this button uses, inside the reader where Mail cannot change it.
+const share = () => {
+  for (const w of readerFrames('compose.html')) w.postMessage({type: 'send-shows', ...people, from}, location.origin);
+};
+addEventListener('message', e => { if (e.data?.type === 'compose-hello' && fromOurFrame(e, 'compose.html')) share(); });
+
+// Where the browser can tell (Chrome), Send works only while it is in plain
+// view: not under something laid over it, not see-through, not moved.
+let inView = !('IntersectionObserverEntry' in window && 'isVisible' in IntersectionObserverEntry.prototype);
+if (!inView) {
+  new IntersectionObserver(entries => { for (const e of entries) inView = e.isVisible; },
+                           {trackVisibility: true, delay: 100}).observe(button);
+}
+
+button.addEventListener('click', async e => {
+  if (busy || !ready || !e.isTrusted) return;
+  if (!inView) { tell({type: 'reader-error', message: 'Send is covered by something on the page: nothing was sent.'}); return; }
+  // Who it goes to may not change under your finger: a list changed just
+  // before the press waits for a second look at the For line.
+  if (Date.now() - changedAt < 2000) { tell({type: 'reader-error', message: 'Who it goes to just changed. Check the For line, then press Send again.'}); return; }
+  busy = true;
+  button.disabled = true;
+  const to = [...people.to], cc = [...people.cc], bcc = [...people.bcc];  // as they stood at the press
+  try {
+    if (await raised()) throw new Error(alarmText());
+    const everyone = [...to, ...cc, ...bcc].map(a => a.toLowerCase());
+    if (!everyone.length) throw new Error('Add a recipient.');
+    if (!ADDRESS.test(from) || everyone.some(a => !ADDRESS.test(a))) throw new Error('An address here is not a plain email address: nothing was sent.');
+    // Our keys only (keys.mjs, by the hash of each address).
+    const known = new Map(await Promise.all([...new Set([...everyone, from])].map(async a => [a, await keyOf(a)])));
+    const own = known.get(from);
+    const missing = [...everyone, from].filter(a => !known.get(a));
+    if (missing.length) throw new Error(`End to end goes only to mailboxes here with keys; not to ${missing.join(', ')}.`);
+    // Your key, for the seal: open already, or opened now with this press.
+    // Every message written here is sealed: one that is not could have come
+    // from anyone who has your public key, the mail server included, so
+    // there is no sending without it. The records Mail hands over count, and
+    // so do those this browser keeps itself, so Mail cannot leave them out.
+    const fromId = own.subkeys[0];
+    const mine = records.filter(r => r.keyId === fromId);
+    try { for (const r of await all()) if (valid(r) && r.keyId === fromId && !mine.some(m => m.credentialId === r.credentialId)) mine.push(r); } catch (e) {}
+    const opened = (await vault.state()).keyIds.includes(fromId);
+    if (!mine.length && !opened) throw new Error('Sending end to end needs your own key in this browser. Add it on the Security page, then press Send.');
+    let derive = null;
+    {
+      if (!opened) {
+        if (mine.some(r => r.pinSalt) && !pin.value) { pinField.hidden = false; report(); pin.focus(); throw new Error('Enter your PIN, then press Send.'); }
+        await vault.unlock(mine, pin.value, minutes);
+        pin.value = '';
+        pinField.hidden = true;
+      }
+      derive = vault.deriver(fromId);
+    }
+    const openpgp = await openpgpLib();
+    let text = await ask(to, cc);
+    const keys = [...new Set([...everyone, from])].map(a => known.get(a));
+    text = await seal(openpgp, text, fromId, derive, keys.map(k => k.subkeys[0]));
+    const encryptionKeys = await Promise.all(keys.map(k => openpgp.readKey({armoredKey: k.armored})));
+    const armored = await openpgp.encrypt({message: await openpgp.createMessage({binary: new TextEncoder().encode(text)}), encryptionKeys, format: 'armored'});
+    tell({type: 'reader-encrypted', armored});
+  } catch (err) {
+    tell({type: 'reader-error', message: err.name === 'NotAllowedError' ? 'Sending end to end needs your key: Touch ID was cancelled.'
+                                       : err.message === 'locked' ? 'Your key could not be opened here. Unlock encrypted mail, then press Send.' : err.message});
+  } finally {
+    busy = false;
+    button.disabled = false;
+  }
+});
+
+addEventListener('message', e => {
+  if (e.source !== parent || !MAIL_SITES.includes(e.origin)) return;
+  parentOrigin = e.origin;
+  const d = e.data || {};
+  if (Number.isFinite(d.vw)) widths(d.vw);
+  if (d.type === 'send-init' && !ready) {
+    ready = true;
+    records = Array.isArray(d.records) ? d.records.filter(valid).slice(0, 20) : [];
+    minutes = [0, 5, 15, 30, 60].includes(d.minutes) ? d.minutes : 15;
+    from = typeof d.from === 'string' && ADDRESS.test(d.from.toLowerCase()) ? d.from.toLowerCase() : '';
+    report();
+    share();
+  } else if (d.type === 'send-people') {
+    const s = v => Array.isArray(v) ? v.filter(a => typeof a === 'string').map(a => a.toLowerCase()).slice(0, 100) : [];
+    const next = {to: s(d.to), cc: s(d.cc), bcc: s(d.bcc)};
+    if (JSON.stringify(next) !== JSON.stringify(people)) changedAt = Date.now();
+    people = next;
+    share();
+  } else if (d.type === 'send-label' && typeof d.label === 'string') {
+    // Send now, or Schedule send once a time is picked in Mail's menu.
+    button.textContent = d.label === 'schedule' ? 'Schedule send' : 'Send now';
+    report();
+  }
+});
+if (parent !== window) parent.postMessage({type: 'reader-ready'}, '*');
+vault.warm();
