@@ -22,7 +22,7 @@ const PINS = {
  "alarm.mjs": "2e924e862b89c8961ddac0dca7fd7522097a5c1a93b259cf816adb0212756854",
  "compose.html": "af86e0834cee3319214b6c2bafd530da6e2ee243b0f4b98f7a4f68aba993661c",
  "compose.mjs": "62ebf28f51517709674a46c2ca798f7d5b26ae1fd25328542cb5fa368dfb59d7",
- "contacts.mjs": "46d194f07f132b8642978f47c3a9b98a1d0082721adb0ea8382c6e46a88c36fc",
+ "contacts.mjs": "e11190c266a0ff3acb7e668dfb87c8ebb2a69177f703e44eb5e6b67f5742844f",
  "decrypt.mjs": "867920352586b1522f1e97e8cdc3ea587b3fa0b71fe88c997b7ba551dfc56709",
  "dkim.mjs": "73795ba28249d7a16ff91ea8582f86260088bbd45ec43c2beabb5232a25d3296",
  "dns.html": "f27a9bd26722cf61cb005e25ae821f4084d9139a9d48f386e31e0ed945e468db",
@@ -30,7 +30,7 @@ const PINS = {
  "embed.mjs": "c364211e41f59360ee05d40ce1d36d82bdde3e3ef7a3d89ff6b650156d78b2a5",
  "frame.css": "95f5021cdf3ae30b5e472da3c781fc9c4e1b1b4ec6955920e680ae837ffa71c1",
  "hub.html": "c3b901d2a13752d85d327c3e3599aaca0cc801d307e634626a1eb0c3ef3af857",
- "hub.mjs": "0fd88456178dfb67fcfd7e26604b1a53e13559f4b37bba56291bde9a73a6bbd6",
+ "hub.mjs": "400b043514915c30a89d8aef11520da6d6f3f2485fe753ee65cc18fc8a5336ab",
  "icons.mjs": "58b17ff7905e30859040cc0b77b6c2fa02eb7a9a1c4e7ae5882cf44865428961",
  "index.html": "44c66a63f204f2116bf6dcbe5105462ae50ed5abf592b6c2772d3d31111e0326",
  "keys.html": "78b31939ade58fc79e5ddbd995b2143f99bb64362fe4772c4ce39375da23a4e5",
@@ -43,23 +43,24 @@ const PINS = {
  "notices.mjs": "f65d87fe45605a7d16710964003f36cd571f5686b0c9149054aa672b57ce0783",
  "openpgp.min.mjs": "7d3285efa6dfedbb34a136d8b5ad21c28fb973269df0b2818dcb74dfb40b59d9",
  "people.html": "a522def3eff493bee85e36ea4ee64c7d2ad434d87f0cf903aa49f9d68857544f",
- "people.mjs": "f678268627a181d6be2792c5f401c69ba46daed75381838b3aa9e0570de720cf",
+ "people.mjs": "1c6d190ee531a3caf35f9bd8710f8913a9361cf39d8bd4b2946614ba37550cd3",
  "reader.css": "259a3632c4cdce05785f5322a735486a74d442e9e1717e3651dd5a37e4303e15",
  "row.css": "f372764933bb9c7d8f7ac92a624ee2849397429d4c4b1eab07b94a12ef70b2a2",
  "row.html": "1c20365a92f3e856c687e50b661088b1dcde1ff6d4662bed28c5a6b6938e4865",
  "row.mjs": "c51ace7c4a897a7a950ade899ed491f073c678c9ddcc69f8c9725a50caab9439",
  "seal.mjs": "0bb9af11c36e33d8cf9a8689e32e1c974629b770d0a85c569bc39ce8613cf3c1",
- "sealed-core.mjs": "f5a3b762ff41cfffe0c409018ea390b6f551829feee17802d1ed60452891374d",
+ "sealed-core.mjs": "23393378fe743b6f02b7c8746f7bc02f118301e66128022021d8ce9a0dfe4a46",
  "send.html": "7f91f2cae14487f1a45c23c38d868f57766682f719312952c0992f96e428f5ce",
- "send.mjs": "33ebba6ea73ed24922dbf1c3474c705311321fef35ee5fef08f479265447a5eb",
+ "send.mjs": "b20ba170ad0e4a5c923c50d2af423f40823b3320d5ed9633132229e9434c52f9",
  "setup.html": "574c50a1a72e989e536efaae00a37483a90464e9ee2e9a4bfac67c804678633c",
- "setup.mjs": "87d183d741282d545782f6c330ef7079abf3a788cb269d9c264e3f84f91d1296",
+ "setup.mjs": "63db34891725f58fd2d3fd94f735c51f409a23b0ed10b16b6fde84ab0976d049",
+ "sign.mjs": "df641dc32afe61dbdd20d397ba5a69cca16cfa7eb73732c8ca589953a841fdec",
  "sites.mjs": "da735072fc0ca68478199a4a477358f6283792952d8d435f91e33b268d91c7ce",
- "store.mjs": "e0a92fa31f985df8f6d2bdcef017a4fbcc1344e05146db6820c9127cb7a9e940",
+ "store.mjs": "6855c1b44e73d736ddac6753d4baf73973911adb20122292d9959342a4f90c1e",
  "tab.mjs": "6cb9413d6a36c53e8a50cb2332fb484fb8c84e2e66b79743510b4c8a253a4757",
  "title.html": "d86d47b2f8c4e4265fd4bc42354e542e6b65b914653cc1c851255385c31412c8",
  "title.mjs": "f1fa9f8cdefa820c69d69461e0f8d5594fd81de03d02b2d452641e1d23243556",
- "vault.mjs": "d1bb5d1a8edc4fc1955623fd225d16ce70fca30ee62a527ef7f805a0eedeabe2",
+ "vault.mjs": "27da2616fe5fb0a16ea5b6524075882a46b19438522b80e7f9c784b546712452",
  "width.mjs": "3f46932569c028cb5815c12c59abf01858e10817dce65d384d4ce43ce29aede8"
 };
 // PINS-END
@@ -77,7 +78,7 @@ const CHOICES = [5, 15, 30, 60]; // minutes without use; anything else is 15
 // X25519(key, point). The mark shows that the reader on screen holds the key.
 const MARK_TEXT = 'Mail Reader mark, version 1';  // a protocol label, kept from the old name (mark.mjs)
 
-let vault = null;  // {keys: Map(keyId -> {key, mark, info}), since, used, inner, seen, idle}
+let vault = null;  // {keys: Map(keyId -> {key, mark, info, signKey, signer}), since, used, inner, seen, idle}
 let timer = 0, epoch = 0;  // epoch: a lock while a key is being put in wins
 
 const tellAll = async message => {
@@ -109,6 +110,7 @@ function plan() {
 const state = () => vault
   ? {unlocked: true, keyIds: [...vault.keys.keys()], marks: Object.fromEntries([...vault.keys].map(([id, k]) => [id, k.mark])),
      infos: Object.fromEntries([...vault.keys].map(([id, k]) => [id, k.info])),
+     signers: Object.fromEntries([...vault.keys].filter(([, k]) => k.signer).map(([id, k]) => [id, k.signer])),
      until: Math.min(vault.since + LONGEST, vault.used + vault.idle, vault.inner + INNER), idle: vault.idle}
   : {unlocked: false, keyIds: [], marks: {}, infos: {}};
 
@@ -119,6 +121,22 @@ async function markPoint() {
     fixedPoint[31] &= 0x7f;
   }
   return fixedPoint;
+}
+// The key the list of people you write to is sealed with: X25519 of your
+// key with a point of its own (as the mark's), through HKDF, so every device
+// with your key makes the same, and no message can lead derive to it (derive
+// refuses nothing else, but the secret it gives never leaves sealed-core).
+const PEOPLE_TEXT = 'Seal people, version 1';
+async function peopleSecret(key) {
+  const point = new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(PEOPLE_TEXT)));
+  point[31] &= 0x7f;
+  const peer = await crypto.subtle.importKey('raw', point, {name: 'X25519'}, false, []);
+  return new Uint8Array(await crypto.subtle.deriveBits({name: 'X25519', public: peer}, key, 256));
+}
+async function peopleKey(shared, keyId) {
+  const base = await crypto.subtle.importKey('raw', shared, 'HKDF', false, ['deriveKey']);
+  return crypto.subtle.deriveKey({name: 'HKDF', hash: 'SHA-256', salt: new Uint8Array(32), info: new TextEncoder().encode(PEOPLE_TEXT + '|' + keyId)},
+                                 base, {name: 'AES-GCM', length: 256}, false, ['encrypt', 'decrypt']);
 }
 // X25519 of a key with the mark's point: the secret the mark comes from,
 // which derive never hands out, whatever point a page sends to reach it.
@@ -152,11 +170,22 @@ async function handle(d, from) {
         const info = k.info || {};
         if (!/^[0-9a-f]{16}$/.test(k.keyId) || !(k.pkcs8 instanceof ArrayBuffer) || info.keyId !== k.keyId || !/^[0-9a-f]{40}$/.test(info.fingerprint) ||
             !Number.isInteger(info.hash) || !Number.isInteger(info.cipher)) continue;
+        const s = k.sign;
         try {
           const key = await crypto.subtle.importKey('pkcs8', k.pkcs8, {name: 'X25519'}, false, ['deriveBits']);
-          keys.set(k.keyId, {key, mark: await markOf(key), markSecret: await markSecret(key), info: {fingerprint: info.fingerprint, keyId: info.keyId, hash: info.hash, cipher: info.cipher}});
+          // The key that signs, where there is one: only Send may use it.
+          let signKey = null, signer = null;
+          if (s && s.pkcs8 instanceof ArrayBuffer && /^[0-9a-f]{16}$/.test(s.keyId) && /^[0-9a-f]{40}$/.test(s.fingerprint) && s.fingerprint.endsWith(s.keyId)) {
+            signKey = await crypto.subtle.importKey('pkcs8', s.pkcs8, {name: 'Ed25519'}, false, ['sign']).catch(() => null);
+            if (signKey) signer = {keyId: s.keyId, fingerprint: s.fingerprint};
+          }
+          // A key that signs held already stays when this record brings none.
+          const before = keys.get(k.keyId);
+          keys.set(k.keyId, {key, mark: await markOf(key), markSecret: await markSecret(key), peopleSecret: await peopleSecret(key), info: {fingerprint: info.fingerprint, keyId: info.keyId, hash: info.hash, cipher: info.cipher},
+                             ...(signKey ? {signKey, signer} : before?.signKey ? {signKey: before.signKey, signer: before.signer} : {})});
         } finally {
           new Uint8Array(k.pkcs8).fill(0);
+          if (s?.pkcs8 instanceof ArrayBuffer) new Uint8Array(s.pkcs8).fill(0);
         }
       }
       if (!keys.size || epoch !== started) return state();  // locked meanwhile: the lock stands
@@ -175,7 +204,43 @@ async function handle(d, from) {
       const peer = await crypto.subtle.importKey('raw', d.ephemeral, {name: 'X25519'}, false, []);
       const bits = await crypto.subtle.deriveBits({name: 'X25519', public: peer}, held.key, 256), out = new Uint8Array(bits);
       if (held.markSecret && out.every((b, i) => b === held.markSecret[i])) return {};  // another point to the same secret
+      if (held.peopleSecret && out.every((b, i) => b === held.peopleSecret[i])) return {};  // nor the people list's
       return {bits};
+    }
+    case 'sign': {
+      // Your signature on a message, for Send alone (send.html, a page this
+      // worker served): no other page of the reader signs anything.
+      if (!await served(from) || !await isPage(from, 'send.html')) return {foreign: true};
+      // Only a signature on a message (type 0x00, EdDSA, SHA-512): the digest
+      // is made here from what is signed, so nothing else (a certification,
+      // a revocation) can be had from this key.
+      const held = vault?.keys.get(d.keyId);
+      if (!held?.signKey) return {locked: !held};
+      const digest = await messageDigest(d.data, d.hashed);
+      if (!digest) return {};
+      return {signature: new Uint8Array(await crypto.subtle.sign('Ed25519', held.signKey, digest))};
+    }
+    case 'people-seal': case 'people-open': {
+      // The list of people you write to (contacts.mjs), sealed for Mail to
+      // keep for your other devices, under a key made from yours: Mail and
+      // its server cannot read it nor change it. For the reader's own pages.
+      if (!await served(from)) return {foreign: true};
+      const held = vault?.keys.get(d.keyId);
+      if (!held || !(d.data instanceof Uint8Array) || d.data.length > 4e6) return {locked: !held};
+      held.peopleKey ||= await peopleKey(held.peopleSecret, d.keyId);
+      try {
+        if (d.type === 'people-seal') {
+          const iv = crypto.getRandomValues(new Uint8Array(12));
+          const sealed = new Uint8Array(await crypto.subtle.encrypt({name: 'AES-GCM', iv, additionalData: new TextEncoder().encode(PEOPLE_TEXT + '|' + d.keyId)}, held.peopleKey, d.data));
+          const out = new Uint8Array(12 + sealed.length);
+          out.set(iv);
+          out.set(sealed, 12);
+          return {data: out};
+        }
+        return {data: new Uint8Array(await crypto.subtle.decrypt({name: 'AES-GCM', iv: d.data.subarray(0, 12), additionalData: new TextEncoder().encode(PEOPLE_TEXT + '|' + d.keyId)}, held.peopleKey, d.data.subarray(12)))};
+      } catch (e) {
+        return {bad: true};
+      }
     }
     case 'use':  // someone used Mail (a click, a key, a scroll); inner: in the reader's own frames
       if (vault && await served(from)) { vault.used = Date.now(); if (d.inner === true) vault.inner = vault.used; plan(); }
@@ -250,7 +315,19 @@ function alarmRaised() {
 }
 
 // A page this worker served (its document came from the checked copy).
+// The digest of a binary-document signature (RFC 9580, 5.2.4) over data,
+// with its hashed part (version 4, type 0x00, EdDSA, SHA-512), or null.
+async function messageDigest(data, hashed) {
+  if (!(data instanceof Uint8Array) || !(hashed instanceof Uint8Array) || data.length > 40e6 || hashed.length < 6 || hashed.length > 1024 ||
+      hashed[0] !== 4 || hashed[1] !== 0x00 || hashed[2] !== 22 || hashed[3] !== 10 || hashed.length !== 6 + (hashed[4] << 8 | hashed[5])) return null;
+  const n = hashed.length, all = new Uint8Array(data.length + n + 6);
+  all.set(data);
+  all.set(hashed, data.length);
+  all.set([4, 0xff, (n >>> 24) & 255, (n >>> 16) & 255, (n >>> 8) & 255, n & 255], data.length + n);
+  return new Uint8Array(await crypto.subtle.digest('SHA-512', all));
+}
 const served = async id => !!id && (await self.clients.matchAll({type: 'window'})).some(c => c.id === id);
+const isPage = async (id, name) => (await self.clients.matchAll({type: 'window'})).some(c => c.id === id && new URL(c.url).pathname.endsWith('/' + name));
 self.addEventListener('message', e => {
   const reply = e.ports[0];
   e.waitUntil(handle(e.data || {}, e.source?.id).then(r => reply?.postMessage(r), err => reply?.postMessage({error: String(err?.message || err)})));
