@@ -146,7 +146,7 @@ border-radius:var(--r-lg);background:var(--c-surface);box-shadow:var(--e-3)}
 .sugg{display:flex;align-items:center;gap:var(--s-3);min-height:40px;border-radius:var(--r-sm)}.sugg .sugg-t{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .sugg small{flex:none;max-width:40%;overflow:hidden;color:var(--c-text-3);text-overflow:ellipsis;white-space:nowrap}
 .sugg.active,.sugg-all.active{background:var(--c-selected);color:var(--c-on-selected)}.sugg-all{color:var(--c-primary)}
-.sugg-none{margin:var(--s-2) var(--s-3);color:var(--c-text-3)}
+.sugg-none{margin:var(--s-2) var(--s-3);color:var(--c-text-3)}.sugg mark{background:none;color:inherit;font-weight:600}
 .sugg svg.i{flex:none;width:20px;height:20px;fill:var(--c-text-2)}.sugg .avatar{flex:none}
 .sugg-group + .sugg-group{margin-top:var(--s-2)}
 .me{display:flex;align-items:center;justify-content:flex-end;gap:var(--s-1);padding-left:var(--s-4)}.me form{display:contents}
